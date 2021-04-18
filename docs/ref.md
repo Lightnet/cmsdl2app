@@ -9,10 +9,43 @@ https://stackoverflow.com/questions/29302203/sdl-delta-time-reset/29306509
 https://thenumbat.github.io/cpp-course/sdl2/08/08.html
 https://www.cplusplus.com/reference/cstdio/printf/
 https://www.voyagingmind.com/posts/cmake-and-sdl2/
-
+https://stackoverflow.com/questions/19024259/how-to-change-the-build-type-to-release-mode-in-cmake
 https://blog.conan.io/2019/06/26/An-introduction-to-the-Dear-ImGui-library.html
 
 https://github.com/Qihoo360/evpp
+
+https://github.com/ValveSoftware/GameNetworkingSockets
+
+
+
+https://partner.steamgames.com/doc/features/multiplayer/networking
+
+https://www.reddit.com/r/vulkan/comments/5873ic/psa_as_of_version_37_cmake_supports_vulkan_out_of/
+
+
+https://vulkan-tutorial.com/Development_environment
+
+
+# physic
+https://github.com/DanielChappuis/reactphysics3d
+
+https://www.reactphysics3d.com/usermanual.html#x1-50004
+
+# SDL add ons:
+https://github.com/libsdl-org/SDL_image
+https://github.com/libsdl-org/SDL_ttf
+https://bugzilla.libsdl.org/
+https://github.com/Tangent128/luasdl2
+
+https://metacpan.org/release/SDL-Tutorial-3DWorld
+https://marcelbraghetto.github.io/a-simple-triangle/2019/03/02/part-01/
+
+# vulkan
+https://developer.tizen.org/development/guides/native-application/graphics/simple-directmedia-layer-sdl/sdl-graphics-vulkan%C2%AE
+https://docs.tizen.org/application/native/guides/graphics/vulkan/
+https://marcelbraghetto.github.io/a-simple-triangle/2019/06/09/part-14/
+https://github.com/MarcelBraghetto/a-simple-triangle
+https://gist.github.com/YukiSnowy/dc31f47448ac61dd6aedee18b5d53858
 
 
 https://www.voyagingmind.com/posts/cmake-and-sdl2/

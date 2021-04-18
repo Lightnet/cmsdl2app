@@ -1,4 +1,10 @@
 
+```
+file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
+file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
+```
+
+
 
 ```cmake
 add_executable(random random.cpp)

@@ -2,10 +2,17 @@
 :: Create a build directory
 mkdir build 
 :: Build from that directory so the build files are in one place
-cd build && cmake ..
+::cmake --build build
+cd build
+::cmake ..
+::cmake .. -DCMAKE_BUILD_TYPE=Debug
+::cmake -DCMAKE_BUILD_TYPE=Release -B build
+::cmake --build build --config Debug
+::cmake --build . --config Release 
+::cmake --build . --config Debug 
+cmake --build . 
+::-DCMAKE_BUILD_TYPE= Release RelWithDebInfo Debug
 :: test config
 ::cmake -D ISTEST=ON | OFF
-::cmake -D ISTEST=ON . 
-:: Build the project
-cmake --build . 
+::cmake --build build -D ISTEST=ON 
 pause

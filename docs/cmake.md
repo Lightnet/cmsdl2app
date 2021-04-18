@@ -1,3 +1,23 @@
+https://stackoverflow.com/questions/48754619/what-are-cmake-build-type-debug-release-relwithdebinfo-and-minsizerel
+
+https://stackoverflow.com/questions/7724569/debug-vs-release-in-cmake
+
+
+https://stackoverflow.com/questions/4905340/cmake-regex-to-convert-lower-case-to-upper-case
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```cmake
 #message("SDL_LIBRARY: " ${SDL_LIBRARY}) # fail but define in cmake
