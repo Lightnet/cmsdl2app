@@ -28,7 +28,27 @@
 # set up and build:
   Need to install cmake and compiler on window or other os tools.
 
+  Note some configs required other config to work as well order to build in link the library together.
+
+  CMakeLists.txt
+```cmake
+  ON = TRUE
+  OFF = FALSE
+```
+
+```cmake
+set(ENABLE_SDL ON) # SDL2
+set(ENABLE_FREETYPE OFF) # 
+set(ENABLE_SDL_TTF OFF) # 
+set(ENABLE_SDL_IMAGE OFF) #not working atm
+set(ENABLE_SDL_MIXER OFF) # not working atm
+set(ENABLE_FLECS OFF) # ENTITY COMPONENT SYSTEM
+set(ENABLE_IMGUI ON) # user graphic interface
+set(ENABLE_VALKUN ON) # graphic hardware render
+```
+
   Open current project dir and open terimal to current to CMakelists.txt.
+
 ```
 mkdir build 
 cd build
