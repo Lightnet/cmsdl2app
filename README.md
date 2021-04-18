@@ -1,13 +1,17 @@
-# cmake SDL2 fetch
+# cmdsdlapp
 
 # license: MIT
 
 # Packages:
  * SDL 2.0.14 https://github.com/libsdl-org/SDL
+ * SDL TTF 
+ * SDL IMAGE 
+ * SDL MIXER 
  * IMGUI 1.82 https://github.com/ocornut/imgui
- * IMGUI SDL 2.0 https://github.com/Tyyppi77/imgui_sdl
  * Flecs https://github.com/SanderMertens/flecs
  * Vulkan 1.2.170.0 https://vulkan.lunarg.com/sdk/home
+
+ * IMGUI SDL 2.0 https://github.com/Tyyppi77/imgui_sdl (remove)
 
 # Created by: Lightnet
 
