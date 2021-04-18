@@ -1,4 +1,4 @@
-# cmdsdlapp
+# cmsdl2app
 
 # license: MIT
 
