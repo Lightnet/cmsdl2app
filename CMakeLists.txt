@@ -27,7 +27,7 @@ set(PROJECT_VERSION_PATCH 0)
 
 message("START OF CMAKELIST...")
 # https://bewagner.net/programming/2020/05/02/cmake-fetchcontent/
-set(FETCHCONTENT_FULLY_DISCONNECTED ON) # When this option is enabled, no attempt is made to download or update any content.
+#set(FETCHCONTENT_FULLY_DISCONNECTED ON) # When this option is enabled, no attempt is made to download or update any content.
 #set(FETCHCONTENT_UPDATES_DISCONNECTED ON) # download and skip update
 
 #================================================
@@ -40,8 +40,11 @@ set(ENTRYPOINT
   #src/windowimguisdl.cpp)
   #src/vulkan_imgui.cpp
   src/vulkan_imgui_editor.cpp
+  #sdl2_imgui.cpp
+  #sdl2gl3w.cpp
+  #sdl2gl3wimgui.cpp
+  #sdl_vulkan.cpp
   #src/vulkan_imgui_docking.cpp
-
   #tests/sdl2_mixer_test01.c
   #tests/testhittesting.c
 )
@@ -71,6 +74,7 @@ set(ENABLE_FLECS OFF)
 set(ENABLE_IMGUI ON)
 # 3D GRAPHIC API
 set(ENABLE_VALKUN ON)
+set(ENABLE_GL3W ON) # works #default from imgui
 #================================================
 # NETWORK
 #================================================
@@ -92,8 +96,8 @@ set(SDL_TTF_GIT_VERSION main) # SDL GITHUB RELEASE TAG
 set(SDL_IMAGE_GIT_VERSION main) # SDL GITHUB RELEASE TAG
 set(SDL_MIXER_GIT_VERSION master) # SDL GITHUB RELEASE TAG
 set(IMGUI_GIT_VERSION 
-  docking
-  #v1.82
+  #docking
+  v1.82
 ) # GITHUB RELEASE TAG
 set(FLECS_GIT_VERSION v2.3.2) # GITHUB RELEASE TAG
 set(GAMENETWORKKINGSOCKETS_GIT_VERSION master) # GITHUB RELEASE TAG
@@ -361,6 +365,38 @@ if (ENABLE_FLECS)
     endif()
   endif()
 endif()
+
+#================================================
+# GL3W
+#================================================
+if(ENABLE_GL3W)
+  if (NOT gl3w_FOUND) # If there's none, fetch and build sdl
+    include(FetchContent)
+    FetchContent_Declare(
+      gl3w
+      GIT_REPOSITORY https://github.com/skaslev/gl3w.git
+      GIT_TAG master
+    )
+    FetchContent_GetProperties(gl3w)
+    if (NOT gl3w_POPULATED) # Have we downloaded raylib yet?
+      set(FETCHCONTENT_QUIET NO)
+      FetchContent_Populate(gl3w)
+      # utility to setup the downloaded library for use
+      #FetchContent_MakeAvailable(gl3w)
+      message("GL3W GITHUB ====================================   ")
+      message("GL3W GITHUB SRC >>> " ${gl3w_SOURCE_DIR})
+      message("GL3W GITHUB BIN >>> " ${gl3w_BINARY_DIR})
+
+      list(APPEND CPP_INCLUDE_DIRS ${gl3w_BINARY_DIR}/include)
+      #list(APPEND CPP_INCLUDE_DIRS ${gl3w_BINARY_DIR}/src)
+
+      list(APPEND CPP_HEADER_FILES ${gl3w_BINARY_DIR}/include/GL/gl3w.h)
+      list(APPEND CPP_HEADER_FILES ${gl3w_BINARY_DIR}/src/gl3w.c)
+      
+      add_subdirectory(${gl3w_SOURCE_DIR} ${gl3w_BINARY_DIR}) #add to build in sub dir
+    endif()
+  endif()
+endif()
 #================================================
 # IMGUI
 #================================================
@@ -399,6 +435,9 @@ if (ENABLE_IMGUI)
 
       list(APPEND CPP_SOURCE_FILES ${imgui_SOURCE_DIR}/backends/imgui_impl_vulkan.cpp)
       list(APPEND CPP_HEADER_FILES ${imgui_SOURCE_DIR}/backends/imgui_impl_vulkan.h)
+
+      list(APPEND CPP_SOURCE_FILES ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp)
+      list(APPEND CPP_HEADER_FILES ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.h)
 
     endif()
   endif()
