@@ -339,97 +339,18 @@ static void FramePresent(ImGui_ImplVulkanH_Window* wd)
     wd->SemaphoreIndex = (wd->SemaphoreIndex + 1) % wd->ImageCount; // Now we can use the next set of semaphores
 }
 
-#define RESIZE_BORDER 4
-
-// https://stackoverflow.com/questions/58209628/function-to-move-a-sdl2-window-while-mouse-down-flickers-the-window-and-doesnt
-// https://wiki.libsdl.org/SDL_HitTestResult
-static SDL_HitTestResult SDLCALL
-hitTest(SDL_Window *window, const SDL_Point *pt, void *data)
-{
-    int w, h;
-    int mx, my;
-    SDL_GetWindowSize(window, &w, &h);
-    SDL_GetMouseState(&mx, &my);
-
-    const SDL_Rect dragarea ={4,4,w-4,20};
-
-    if (SDL_PointInRect(pt, &dragarea)) {
-        //SDL_Log("HIT-TEST: DRAGGABLE\n");
-        return SDL_HITTEST_DRAGGABLE;
-    }
-    
-
-    //SDL_Log("HIT-TEST: RESIZE_" #name "\n"); 
-    #define REPORT_RESIZE_HIT(name) { \
-        return SDL_HITTEST_RESIZE_##name; \
-    }
-
-
-    if (pt->x < RESIZE_BORDER && pt->y < RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(TOPLEFT);
-    } else if (pt->x > RESIZE_BORDER && pt->x < w - RESIZE_BORDER && pt->y < RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(TOP);
-    } else if (pt->x > w - RESIZE_BORDER && pt->y < RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(TOPRIGHT);
-    } else if (pt->x > w - RESIZE_BORDER && pt->y > RESIZE_BORDER && pt->y < h - RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(RIGHT);
-    } else if (pt->x > w - RESIZE_BORDER && pt->y > h - RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(BOTTOMRIGHT);
-    } else if (pt->x < w - RESIZE_BORDER && pt->x > RESIZE_BORDER && pt->y > h - RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(BOTTOM);
-    } else if (pt->x < RESIZE_BORDER && pt->y > h - RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(BOTTOMLEFT);
-    } else if (pt->x < RESIZE_BORDER && pt->y < h - RESIZE_BORDER && pt->y > RESIZE_BORDER) {
-        REPORT_RESIZE_HIT(LEFT);
-    }
-
-    //SDL_Log("HIT-TEST: NORMAL\n");
-    return SDL_HITTEST_NORMAL;
-}
-
-
-
-
-
 int main(int, char**)
 {
-
-    // https://wiki.libsdl.org/SDL_SetWindowHitTest
-
-
-
-    //***declaring the datas that will store the
-    //mouse x and y position***
-    int mousePosX= 0, mousePosY = 0;
-
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
         printf("Error: %s\n", SDL_GetError());
         return -1;
     }
-    //https://www.reddit.com/r/sdl/comments/id5ucl/borderless_window_resizing/
+
     // Setup window
-    // https://wiki.libsdl.org/SDL_CreateWindow
-    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_BORDERLESS );
+    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Window* window = SDL_CreateWindow("Dear ImGui SDL2+Vulkan example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
-    SDL_SetWindowResizable(window, SDL_TRUE);
-
-
-    if (SDL_SetWindowHitTest(window, hitTest, NULL) == -1) {
-        SDL_Log("Enabling hit-testing failed!\n");
-        SDL_Quit();
-        return 1;
-    }
-
-
-
-
-
-
-
-
-
 
     // Setup Vulkan
     uint32_t extensions_count = 0;
@@ -460,8 +381,7 @@ int main(int, char**)
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
     // Setup Dear ImGui style
@@ -551,16 +471,6 @@ int main(int, char**)
                 done = true;
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
                 done = true;
-            if(event.type == SDL_MOUSEBUTTONDOWN){
-                //mousePosX = event.button.x;
-                //mousePosY = event.button.y;
-                SDL_Log("button down!\n");
-            }
-            if(event.type == SDL_MOUSEBUTTONUP){
-                //mousePosX = event.button.x;
-                //mousePosY = event.button.y;
-                SDL_Log("button up!\n");
-            }
         }
 
         // Resize swap chain?
@@ -592,7 +502,7 @@ int main(int, char**)
         //ImGui::Begin("main",nullptr, ImGuiWindowFlags_NoDecoration, ImGuiWindowFlags_NoBackground); //nope
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings;
         //ImGui::SetNextWindowBgAlpha(0.0f);
-        //ImGui::SetNextWindowPos(ImVec2(0, 32.0f));
+        ImGui::SetNextWindowPos(ImVec2(0, 32.0f));
         ImGui::Begin("main",nullptr, flags);
             
             if(ImGui::Button("my button") ){
@@ -673,7 +583,6 @@ int main(int, char**)
             FramePresent(wd);
         }
 
-        
         // Multi viewport
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
@@ -683,10 +592,6 @@ int main(int, char**)
             ImGui::RenderPlatformWindowsDefault();
             //SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
         }
-        
-
-
-
     }
 
     // Cleanup

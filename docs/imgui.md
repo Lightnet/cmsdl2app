@@ -1,7 +1,13 @@
 
-
-
-
+# Docking:
+ * https://github.com/ocornut/imgui/issues/3356
+ * https://github.com/ocornut/imgui/issues/3451
+ * https://github.com/ocornut/imgui/issues/3695
+ * https://github.com/ocornut/imgui/issues/3758
+ * 
+ * 
+ * 
+ * 
 
 
 

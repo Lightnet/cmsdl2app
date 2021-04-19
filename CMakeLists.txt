@@ -29,6 +29,29 @@ message("START OF CMAKELIST...")
 # https://bewagner.net/programming/2020/05/02/cmake-fetchcontent/
 set(FETCHCONTENT_FULLY_DISCONNECTED ON) # When this option is enabled, no attempt is made to download or update any content.
 #set(FETCHCONTENT_UPDATES_DISCONNECTED ON) # download and skip update
+
+#================================================
+# ENTERY POINTS
+#================================================
+# entry point file.cpp
+set(ENTRYPOINT 
+  #src/main.cpp
+  #src/sdl2window.cpp
+  #src/windowimguisdl.cpp)
+  #src/vulkan_imgui.cpp
+  src/vulkan_imgui_editor.cpp
+  #src/vulkan_imgui_docking.cpp
+
+  #tests/sdl2_mixer_test01.c
+  #tests/testhittesting.c
+)
+message("ENTRYPOINT: ${ENTRYPOINT}") # console log
+
+
+#set(FETCHCONTENT_SOURCE_DIR_SDL ON)
+set(FETCHCONTENT_SOURCE_DIR_SDL_IMAGE ON)
+set(FETCHCONTENT_SOURCE_DIR_SDL_MIXER ON)
+#set(FETCHCONTENT_SOURCE_DIR_IMGUI ON)
 #================================================
 # CONFIGS
 #================================================
@@ -74,20 +97,7 @@ set(IMGUI_GIT_VERSION
 ) # GITHUB RELEASE TAG
 set(FLECS_GIT_VERSION v2.3.2) # GITHUB RELEASE TAG
 set(GAMENETWORKKINGSOCKETS_GIT_VERSION master) # GITHUB RELEASE TAG
-#================================================
-# ENTERY POINTS
-#================================================
-# entry point file.cpp
-set(ENTRYPOINT 
-  #src/main.cpp
-  #src/sdl2window.cpp
-  #src/windowimguisdl.cpp)
-  #src/vulkan_imgui.cpp
-  src/vulkan_imgui_editor.cpp
 
-  #tests/sdl2_mixer_test01.c
-)
-message("ENTRYPOINT: ${ENTRYPOINT}") # console log
 # config IDE ext 
 #include(CTest)
 #enable_testing()
@@ -214,28 +224,27 @@ if (ENABLE_SDL)
 
       link_directories(${PROJECT_BINARY_DIR}/Debug)
       add_subdirectory(${sdl_SOURCE_DIR} ${sdl_BINARY_DIR})
-      
-      #needed for sub modules
-      list(APPEND SDL2_INCLUDE_DIR ${sdl_SOURCE_DIR}/include)
-
-      list(APPEND SDL2_LIBRARIES ${PROJECT_SOURCE_DIR}/build/Debug/SDL2maind.lib)
-      list(APPEND SDL2_LIBRARIES ${PROJECT_SOURCE_DIR}/build/Debug/SDL2-staticd.lib)
-      list(APPEND SDL2_LIBRARIES ${PROJECT_SOURCE_DIR}/build/Debug/SDL2d.lib)
-
-      #list(APPEND SDL2_LIBRARY ${PROJECT_BINARY_DIR}/Debug/SDL2maind.lib)
-      #list(APPEND SDL2_LIBRARY ${PROJECT_BINARY_DIR}/Debug/SDL2-staticd.lib)
-      #list(APPEND SDL2_LIBRARY ${PROJECT_BINARY_DIR}/Debug/SDL2d.lib)
-
-      #list(APPEND SDL2_LIB ${PROJECT_SOURCE_DIR}/build/Debug/SDL2maind.lib)
-      #list(APPEND SDL2_LIB ${PROJECT_SOURCE_DIR}/build/Debug/SDL2-staticd.lib)
-      #list(APPEND SDL2_LIB ${PROJECT_SOURCE_DIR}/build/Debug/SDL2d.lib)
-
-      list(APPEND CPP_LIBS "SDL2main")
-      list(APPEND CPP_LIBS "SDL2-static")
-      add_library(SDL2::SDL2 ALIAS SDL2)
-      add_library(SDL2::SDL2-static ALIAS SDL2-static)
-
     endif()
+
+    #needed for sub modules
+    list(APPEND SDL2_INCLUDE_DIR ${sdl_SOURCE_DIR}/include)
+
+    list(APPEND SDL2_LIBRARIES ${PROJECT_SOURCE_DIR}/build/Debug/SDL2maind.lib)
+    list(APPEND SDL2_LIBRARIES ${PROJECT_SOURCE_DIR}/build/Debug/SDL2-staticd.lib)
+    list(APPEND SDL2_LIBRARIES ${PROJECT_SOURCE_DIR}/build/Debug/SDL2d.lib)
+
+    #list(APPEND SDL2_LIBRARY ${PROJECT_BINARY_DIR}/Debug/SDL2maind.lib)
+    #list(APPEND SDL2_LIBRARY ${PROJECT_BINARY_DIR}/Debug/SDL2-staticd.lib)
+    #list(APPEND SDL2_LIBRARY ${PROJECT_BINARY_DIR}/Debug/SDL2d.lib)
+
+    #list(APPEND SDL2_LIB ${PROJECT_SOURCE_DIR}/build/Debug/SDL2maind.lib)
+    #list(APPEND SDL2_LIB ${PROJECT_SOURCE_DIR}/build/Debug/SDL2-staticd.lib)
+    #list(APPEND SDL2_LIB ${PROJECT_SOURCE_DIR}/build/Debug/SDL2d.lib)
+
+    list(APPEND CPP_LIBS "SDL2main")
+    list(APPEND CPP_LIBS "SDL2-static")
+    add_library(SDL2::SDL2 ALIAS SDL2)
+    add_library(SDL2::SDL2-static ALIAS SDL2-static)
   endif()
 endif()
 #================================================
